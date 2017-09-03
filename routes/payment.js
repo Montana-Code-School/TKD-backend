@@ -10,15 +10,17 @@ const postStripeCharge = res => (stripeErr, stripeRes) => {
 }
 
 const paymentApi = app => {
+  setInterval(() => {
+    app.get('/', (req, res) => {
+      if (res.status === 200) {
+        res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
+      }
+      else {
+        res.send("error");
+      }
+    });
+  }, 500)
 
-  app.get('/', (req, res) => {
-    if (res.status === 200) {
-      res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
-    }
-    else {
-      res.send("error");
-    }
-  });
 
   app.post('/', (req, res) => {
     stripe.charges.create(req.body, postStripeCharge(res));
