@@ -12,7 +12,7 @@ const localDbname = "saja_academy"
 
 
 // config db ====================================
-const connection = mysql.createConnection({
+const connection = mysql.createPool({
   host: host || localHost,
   user: user || localUser,
   password: pswd || localPswd,
