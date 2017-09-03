@@ -7,7 +7,7 @@ const configureRoutes = app => {
     if(databaseHelpers.herokuLive === true) {
       console.log("database is connected.")
       clearInterval(interval);
-      databaseHelpers.paymentApi(app);
+      paymentApi(app);
       databaseHelpers.getStudent(app);
     } else {
       console.log("database is sleepy.");
