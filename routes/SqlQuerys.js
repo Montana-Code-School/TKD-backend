@@ -34,7 +34,7 @@ const databaseHelpers = {
                 }
               });
             });
-    })
+    }))
     // console.log("get student called")
     // const interval = setInterval(function(){
     //   connection.ping(function(err) {
