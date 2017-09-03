@@ -40,11 +40,10 @@ const databaseHelpers = {
       console.log(res);
       const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
       connection.query(userQuery, function(err, result, fields) {
-        if(!err || result.length < 0){
-          res.json({result});
-        }
-        else {
+        if(err){
           res.json({error: "Something went wrong. Check your endpoint information"})
+        } else if (!err || result.length < 0) {
+          res.json({result});
         }
       });
     });
