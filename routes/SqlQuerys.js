@@ -21,11 +21,11 @@ const getStudent = app => {
     app.get('/student/:studentemail', (req, res) => {
       const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
       connection.query(userQuery, function(err, result, fields) {
-        if(!err){
+        if(!err || result.length < 0){
           res.json({result});
         }
         else {
-          res.json({error: "Something went wrong."})
+          res.json({error: "Something went wrong. Check your endpoint information"})
         }
       });
     });
