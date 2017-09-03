@@ -44,7 +44,6 @@ const databaseHelpers = {
           console.log('database is sleeping.')
         } else {
           app.get('/student/:studentemail', (req, res) => {
-            console.log(res);
             const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
             connection.query(userQuery, function(err, result, fields) {
               if(err){
@@ -61,19 +60,28 @@ const databaseHelpers = {
   },
 
   getGenData : app => {
-    app.get('/classInfo/:userId', (req, res) => {
-
-      const userQuery = "SELECT * FROM heroku_4bb107ad2e4a484.student WHERE user_id =" + connection.escape(req.params.userId);
-      connection.query(userQuery, function(err, result, fields) {
+    console.log("get gendata")
+    const interval = setInterval(function(){
+      connection.ping(function(err) {
         if(err){
-          res.json({error: "Something went wrong. Check your endpoint information"})
-        } else if (!err || result.length > 0) {
-          res.json({result});
+          console.log('database is sleeping.')
+        } else {
+          app.get('/classInfo/:userId', (req, res) => {
+            const userQuery = "SELECT * FROM heroku_4bb107ad2e4a484.student WHERE user_id =" + connection.escape(req.params.userId);
+            connection.query(userQuery, function(err, result, fields) {
+              if(err){
+                res.json({error: "Something went wrong. Check your endpoint information"})
+              } else if (!err || result.length > 0) {
+                res.json({result});
+              }
+            });
+          });
+          clearInterval(interval);
         }
-      });
-    });
-  }
+      })
+    }, 500)
+    })
 
-}
+  }
 
 module.exports = databaseHelpers;
