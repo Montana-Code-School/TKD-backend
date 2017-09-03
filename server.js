@@ -11,9 +11,9 @@ const app = express();
 configureServer(app);
 configureRoutes(app);
 
-app.get('/student', (req, res) => {
-  res.json("hey yall");
-});
+app.get("/", (req, res) => {
+  res.json({"hey y'all"})
+}
 
 app.listen(SERVER_CONFIGS.PORT, error => {
   if (error) throw error;
