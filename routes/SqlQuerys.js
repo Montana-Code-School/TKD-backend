@@ -19,7 +19,7 @@ connection.connect();
 const getStudent = app => {
   setInterval(() => {
     app.get('/student/:studentemail', (req, res) => {
-      const userQuery = "SELECT user.id FROM heroku_92af27f11107b0b.user WHERE user.email =" + connection.escape(req.params.studentemail);
+      const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
       connection.query(userQuery, function(err, result, fields) {
         if(!err){
           res.json({result});
