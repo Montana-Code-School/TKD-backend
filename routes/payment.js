@@ -12,7 +12,7 @@ const postStripeCharge = res => (stripeErr, stripeRes) => {
 const paymentApi = app => {
   setInterval(() => {
     app.get('/', (req, res) => {
-      if (res.status === 200) {
+      if (res.statusCode === 200) {
         res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
       }
       else {
