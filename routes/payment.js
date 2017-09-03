@@ -10,8 +10,14 @@ const postStripeCharge = res => (stripeErr, stripeRes) => {
 }
 
 const paymentApi = app => {
+
   app.get('/', (req, res) => {
-    res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
+    if (res.status === 200) {
+      res.send({ message: 'Hello Stripe checkout server!', timestamp: new Date().toISOString() })
+    }
+    else {
+      res.send("error");
+    }
   });
 
   app.post('/', (req, res) => {
