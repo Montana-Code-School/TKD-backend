@@ -12,7 +12,7 @@ const configureRoutes = app => {
     } else {
       console.log("database is sleepy.");
     }
-  }, 30000);
+  }, 2000);
 };
 
 module.exports = configureRoutes;
