@@ -49,7 +49,22 @@ const databaseHelpers = {
         }
       });
     });
+  },
+
+  getGenData : app => {
+    app.get('/classInfo/:userId', (req, res) => {
+
+      const userQuery = "SELECT * FROM heroku_4bb107ad2e4a484.student WHERE user.id =" + connection.escape(req.params.userId);
+      connection.query(userQuery, function(err, result, fields) {
+        if(err){
+          res.json({error: "Something went wrong. Check your endpoint information"})
+        } else if (!err || result.length > 0) {
+          res.json({result});
+        }
+      });
+    });
   }
+
 }
 
 module.exports = databaseHelpers;
