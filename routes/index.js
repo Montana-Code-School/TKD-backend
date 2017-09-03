@@ -9,6 +9,7 @@ const configureRoutes = app => {
     //clearInterval(interval);
       paymentApi(app);
       databaseHelpers.getStudent(app);
+      databaseHelpers.getGenData(app);
     } else {
       console.log("database is sleepy.");
     }
