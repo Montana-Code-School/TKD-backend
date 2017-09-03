@@ -26,11 +26,13 @@ connection.connect();
 
 const databaseHelpers = {
   herokuLive : false,
-  ping : app => {
+  ping :(app) => {
     connection.ping(function(err){
-      if(err) throw err;
-      console.log("database is working");
-      databaseHelpers.herokuLive = true;
+      if(err) {throw err;}
+      else {
+        console.log("database is working");
+        databaseHelpers.herokuLive = true;
+      }
     })
   },
 

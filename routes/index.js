@@ -6,13 +6,13 @@ const configureRoutes = app => {
     databaseHelpers.ping(app);
     if(databaseHelpers.herokuLive === true) {
       console.log("database is connected.")
-      clearInterval(interval);
+    //clearInterval(interval);
       paymentApi(app);
       databaseHelpers.getStudent(app);
     } else {
       console.log("database is sleepy.");
     }
-  }, 500);
+  }, 1000 * 60 * 5);
 };
 
 module.exports = configureRoutes;
