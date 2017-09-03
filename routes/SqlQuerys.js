@@ -42,7 +42,7 @@ const databaseHelpers = {
       connection.query(userQuery, function(err, result, fields) {
         if(err){
           res.json({error: "Something went wrong. Check your endpoint information"})
-        } else if (!err || result.length < 0) {
+        } else if (!err || result.length > 0) {
           res.json({result});
         }
       });
