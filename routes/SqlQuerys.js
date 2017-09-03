@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 
 const host = "us-cdbr-iron-east-05.cleardb.net"
-const user = "b82708b72f397b"
-const pswd = "171489ac"
-const dbname = "heroku_92af27f11107b0b"
+const user = "b9ad8cb6cfd82f"
+const pswd = "9c8bcd72"
+const dbname = "heroku_4bb107ad2e4a484"
 
 // config db ====================================
 const connection = mysql.createConnection({
