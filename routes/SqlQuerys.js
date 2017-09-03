@@ -80,7 +80,7 @@ const databaseHelpers = {
         }
       })
     }, 500)
-    })
+    }
 
   }
 
