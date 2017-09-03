@@ -12,7 +12,7 @@ configureServer(app);
 configureRoutes(app);
 
 app.get("/", (req, res) => {
-  res.json({"hey y'all"})
+  res.send("hey y'all");
 }
 
 app.listen(SERVER_CONFIGS.PORT, error => {
