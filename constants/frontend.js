@@ -1,4 +1,4 @@
-const FRONTEND_DEV_URLS = ['http://localhost:3000'];
+const FRONTEND_DEV_URLS = ['http://localhost:3000', 'https://tkd-api.herokuapp.com/'];
 
 const FRONTEND_PROD_URLS =[
   'https://tkd-api.herokuapp.com/',
