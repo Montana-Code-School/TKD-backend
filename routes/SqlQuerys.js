@@ -56,7 +56,7 @@ const databaseHelpers = {
           clearInterval(interval);
         }
       })
-    }, 500)
+    }, 2000)
   },
 
   getGenData : app => {
