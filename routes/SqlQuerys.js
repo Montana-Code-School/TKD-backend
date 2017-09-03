@@ -17,14 +17,20 @@ const connection = mysql.createConnection({
 connection.connect();
 
 const getStudent = app => {
-  app.get('/student/:studentemail', (req, res) => {
-    const userQuery = "SELECT user.id FROM heroku_92af27f11107b0b.user WHERE user.email =" + connection.escape(req.params.studentemail);
-    connection.query(userQuery, function(err, result, fields) {
-      if(!err){
-        res.json({result});
-      }
+  setInterval(() => {
+    app.get('/student/:studentemail', (req, res) => {
+      const userQuery = "SELECT user.id FROM heroku_92af27f11107b0b.user WHERE user.email =" + connection.escape(req.params.studentemail);
+      connection.query(userQuery, function(err, result, fields) {
+        if(!err){
+          res.json({result});
+        }
+        else {
+          res.json({error: "Something went wrong."})
+        }
+      });
     });
-  });
+  }, 500)
+
 }
 
 module.exports = getStudent;
