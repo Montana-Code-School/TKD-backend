@@ -1,14 +1,19 @@
 const express = require('express');
 
-const SERVER_CONFIGS = require('./constants/server');
+const SERVER_CONFIGS = require('./constants/backendServerConfig');
+console.log(SERVER_CONFIGS);
 
-const configureServer = require('./serverConfig');
-const  configureRoutes = require('./routes/index');
+const configureServer = require('./frontendServerConfig');
+const configureRoutes = require('./routes/index');
 
 const app = express();
 
 configureServer(app);
 configureRoutes(app);
+
+app.get('/student', (req, res) => {
+  res.json("hey yall");
+});
 
 app.listen(SERVER_CONFIGS.PORT, error => {
   if (error) throw error;

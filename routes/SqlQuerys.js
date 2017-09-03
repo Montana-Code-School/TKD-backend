@@ -5,20 +5,39 @@ const user = "b9ad8cb6cfd82f"
 const pswd = "9c8bcd72"
 const dbname = "heroku_4bb107ad2e4a484"
 
+const localHost = "localhost"
+const localUser = "root"
+const localPswd = "13fuzzybunnys"
+const localDbname = "saja_academy"
+
+
 // config db ====================================
 const connection = mysql.createConnection({
-  host: host,
-  user: user,
-  password: pswd,
+  host: host || localHost,
+  user: user || localUser,
+  password: pswd || localPswd,
   port: "3306",
-  database: dbname
+  database: dbname || localDbname
 });
+
+
 
 connection.connect();
 
-const getStudent = app => {
-  setInterval(() => {
+const databaseHelpers = {
+  herokuLive : false,
+  ping : app => {
+    connection.ping(function(err){
+      if(err) throw err;
+      console.log("database is working");
+      databaseHelpers.herokuLive = true;
+    })
+  },
+
+  getStudent : app => {
+    console.log("get student called")
     app.get('/student/:studentemail', (req, res) => {
+      console.log(res);
       const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
       connection.query(userQuery, function(err, result, fields) {
         if(!err || result.length < 0){
@@ -29,8 +48,7 @@ const getStudent = app => {
         }
       });
     });
-  }, 500)
-
+  }
 }
 
-module.exports = getStudent;
+module.exports = databaseHelpers;
