@@ -22,7 +22,7 @@ const pool = mysql.createPool({
 
 const databaseHelpers = {
   getStudent : app => {
-    pool.getConnection((err, connection) {
+    pool.getConnection((err, connection) => {
       if (err) throw err;
             app.get('/student/:studentemail', (req, res) => {
               const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
@@ -34,7 +34,7 @@ const databaseHelpers = {
                 }
               });
             });
-    }))
+    })
     // console.log("get student called")
     // const interval = setInterval(function(){
     //   connection.ping(function(err) {
