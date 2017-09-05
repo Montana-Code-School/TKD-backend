@@ -22,64 +22,48 @@ const pool = mysql.createPool({
 
 const databaseHelpers = {
   getStudent : app => {
-    pool.getConnection((err, connection) => {
-      if (err) throw err;
-            app.get('/student/:studentemail', (req, res) => {
-              const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
-              connection.query(userQuery, function(err, result, fields) {
-                if(err){
-                  res.json({error: "Something went wrong. Check your endpoint information"})
-                } else if (!err || result.length > 0) {
-                  res.json({result});
-                }
-              });
-            });
-    })
-    // console.log("get student called")
-    // const interval = setInterval(function(){
-    //   connection.ping(function(err) {
-    //     if(err){
-    //       console.log('database is sleeping.')
-    //     } else {
-    //       app.get('/student/:studentemail', (req, res) => {
-    //         const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
-    //         connection.query(userQuery, function(err, result, fields) {
-    //           if(err){
-    //             res.json({error: "Something went wrong. Check your endpoint information"})
-    //           } else if (!err || result.length > 0) {
-    //             res.json({result});
-    //           }
-    //         });
-    //       });
-    //       clearInterval(interval);
-    //     }
-    //   })
-    // }, 2000)
+      pool.getConnection((err, connection) => {
+        app.get('/student/:studentemail', (req, res) => {
+          const userQuery = "SELECT user.id FROM heroku_4bb107ad2e4a484.user WHERE user.email =" + connection.escape(req.params.studentemail);
+          pool.query(userQuery, (err, result, field) => {
+            if(!err) {
+              res.json({ result })
+            }
+            else {
+              res.json({ err })
+            }
+          })
+        })
+        connection.destroy();
+        if (err) throw err;
+      })
   },
 
   getGenData : app => {
-    // console.log("get gendata")
-    // const interval = setInterval(function(){
-    //   connection.ping(function(err) {
-    //     if(err){
-    //       console.log('database is sleeping.')
-    //     } else {
-    //       app.get('/classInfo/:userId', (req, res) => {
-    //         const userQuery = "SELECT * FROM heroku_4bb107ad2e4a484.student WHERE user_id =" + connection.escape(req.params.userId);
-    //         connection.query(userQuery, function(err, result, fields) {
-    //           if(err){
-    //             res.json({error: "Something went wrong. Check your endpoint information"})
-    //           } else if (!err || result.length > 0) {
-    //             res.json({result});
-    //           }
-    //         });
-    //       });
-    //       clearInterval(interval);
-    //     }
-    //   })
-    // }, 500)
-    }
-
+    pool.getConnection((err, connection) => {
+      app.get('/classInfo/:userId', (req, res) => {
+        const userQuery = "SELECT student.id FROM heroku_4bb107ad2e4a484.student WHERE user_id =" + connection.escape(req.params.userId);
+        pool.query(userQuery, (err, result, field) => {
+          if(!err) {
+            const nxtQuery = "SELECT * FROM (heroku_4bb107ad2e4a484.student INNER JOIN heroku_4bb107ad2e4a484.payment ON student.id = payment.student_id) WHERE student.id =" + result[0].id;
+            pool.query(nxtQuery, (err, result, field) => {
+              if(!err) {
+                res.json({ result })
+              }
+              else{
+                res.json({ err });
+              }
+            })
+          }
+          else {
+            res.json({ err })
+          }
+        })
+      })
+      connection.destroy();
+      if (err) throw err;
+    })
   }
+}
 
 module.exports = databaseHelpers;
