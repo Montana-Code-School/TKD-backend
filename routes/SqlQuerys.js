@@ -58,28 +58,36 @@ const databaseHelpers = {
   },
 
   getGenData : app => {
-    // console.log("get gendata")
-    // const interval = setInterval(function(){
-    //   connection.ping(function(err) {
-    //     if(err){
-    //       console.log('database is sleeping.')
-    //     } else {
-    //       app.get('/classInfo/:userId', (req, res) => {
-    //         const userQuery = "SELECT * FROM heroku_4bb107ad2e4a484.student WHERE user_id =" + connection.escape(req.params.userId);
-    //         connection.query(userQuery, function(err, result, fields) {
-    //           if(err){
-    //             res.json({error: "Something went wrong. Check your endpoint information"})
-    //           } else if (!err || result.length > 0) {
-    //             res.json({result});
-    //           }
-    //         });
-    //       });
-    //       clearInterval(interval);
-    //     }
-    //   })
-    // }, 500)
-    }
-
+    pool.getConnection((err, connection) => {
+      app.get('/classInfo/:userId', (req, res) => {
+        const userQuery = "SELECT student.id FROM heroku_4bb107ad2e4a484.student WHERE user_id =" + connection.escape(req.params.userId);
+        pool.query(userQuery, (err, result, field) => {
+          if(!err) {
+            const nxtQuery = "SELECT * FROM (heroku_4bb107ad2e4a484.student INNER JOIN heroku_4bb107ad2e4a484.payment ON student.id = payment.student_id) WHERE student.id =" + result[0].id;
+            pool.query(nxtQuery, (err, result, field) => {
+          if(!err) {
+            const nxtQuery = "SELECT student.id, student.last_test_date,attendance.student_id, attendance.did_attend FROM heroku_4bb107ad2e4a484.student INNER JOIN heroku_4bb107ad2e4a484.attendance ON student.id = attendance.student_id
+            WHERE (student.id = 1 AND student.last_test_date <= attendance.did_attend)=" + result[0].id;
+            pool.query(nxtQuery, (err, result, field) => )
+          }
+              if(!err) {
+                res.json({ result })
+              }
+              else{
+                res.json({ err });
+              }
+            })
+          }
+          else {
+            res.json({ err })
+          }
+        })
+      })
+      
+      connection.destroy();
+      if (err) throw err;
+    })
   }
+}
 
 module.exports = databaseHelpers;
